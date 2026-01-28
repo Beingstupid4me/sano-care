@@ -2,31 +2,31 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 export type BookingState = {
-  // Step 1 Details (The Hook)
+  // Form Details
   name: string;
   phone: string;
-  specialty: string;
+  location: string;
+  consultationType: string;
   
-  // Step 2 Details (Post-Commitment)
-  symptom: string;
-  history: string;
-  
-  // Form step tracking
-  step: number;
+  // UI State
+  isModalOpen: boolean;
+  isLocating: boolean;
   
   // Actions
   setDetails: (details: Partial<BookingState>) => void;
-  setStep: (step: number) => void;
+  openModal: () => void;
+  closeModal: () => void;
+  setLocating: (isLocating: boolean) => void;
   reset: () => void;
 };
 
 const initialState = {
   name: '',
   phone: '',
-  specialty: '',
-  symptom: '',
-  history: '',
-  step: 1,
+  location: '',
+  consultationType: '',
+  isModalOpen: false,
+  isLocating: false,
 };
 
 export const useBookingStore = create<BookingState>()(
@@ -34,18 +34,20 @@ export const useBookingStore = create<BookingState>()(
     (set) => ({
       ...initialState,
       setDetails: (details) => set((state) => ({ ...state, ...details })),
-      setStep: (step) => set({ step }),
+      openModal: () => set({ isModalOpen: true }),
+      closeModal: () => set({ isModalOpen: false }),
+      setLocating: (isLocating) => set({ isLocating }),
       reset: () => set(initialState),
     }),
     { 
       name: 'sano-booking-storage',
-      // Only persist essential fields
       partialize: (state) => ({
         name: state.name,
         phone: state.phone,
-        specialty: state.specialty,
-        step: state.step,
+        location: state.location,
+        consultationType: state.consultationType,
       }),
     }
   )
 );
+

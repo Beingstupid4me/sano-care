@@ -1,18 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { User, Phone, Stethoscope, ArrowRight, Shield, Lock } from "lucide-react";
+import { User, Phone, MapPin, Loader2, ArrowRight, Shield, Lock, Video, Building2 } from "lucide-react";
 import { GlassCard, Button, Input, Select } from "@/components/ui";
 import { useBookingStore } from "@/store/bookingStore";
 
-const specialtyOptions = [
-  { value: "", label: "Select Specialty" },
-  { value: "general", label: "General Medicine" },
-  { value: "cardiology", label: "Cardiology" },
-  { value: "pediatrics", label: "Pediatrics" },
-  { value: "neurology", label: "Neurology" },
-  { value: "orthopedics", label: "Orthopedics" },
-  { value: "dermatology", label: "Dermatology" },
+const consultationOptions = [
+  { value: "", label: "Select Consultation Type" },
+  { value: "video", label: "Video Consultation" },
+  { value: "clinic", label: "In-Clinic Visit" },
+  { value: "home", label: "Home Visit" },
 ];
 
 const containerVariants = {
@@ -31,12 +28,39 @@ const itemVariants = {
 };
 
 export function Hero() {
-  const { name, phone, specialty, setDetails } = useBookingStore();
+  const { name, phone, location, consultationType, isLocating, setDetails, setLocating } = useBookingStore();
+
+  const handleGetLocation = () => {
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser");
+      return;
+    }
+
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.coords.latitude}&lon=${position.coords.longitude}`
+          );
+          const data = await response.json();
+          const city = data.address?.city || data.address?.town || data.address?.village || data.address?.state || "Location detected";
+          setDetails({ location: city });
+        } catch {
+          setDetails({ location: "Location detected" });
+        }
+        setLocating(false);
+      },
+      () => {
+        setLocating(false);
+        alert("Unable to retrieve your location");
+      }
+    );
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Booking submitted:", { name, phone, specialty });
+    console.log("Booking submitted:", { name, phone, location, consultationType });
   };
 
   return (
@@ -55,10 +79,10 @@ export function Hero() {
       </div>
 
       <div className="mx-auto max-w-[1400px] w-full px-6 lg:px-12 relative z-10 pt-10 pb-16 lg:py-0">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Content */}
           <motion.div
-            className="lg:col-span-7 flex flex-col justify-center gap-5 lg:gap-6 lg:pr-10 order-1"
+            className="md:col-span-7 flex flex-col justify-center gap-5 lg:gap-6 md:pr-6 lg:pr-10 order-1"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -150,68 +174,91 @@ export function Hero() {
 
           {/* Right - Booking Form */}
           <motion.div
-            className="lg:col-span-5 relative flex justify-center lg:justify-end order-2"
+            className="md:col-span-5 lg:col-span-5 relative flex justify-center md:justify-end order-2 md:order-2"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <div id="hero-booking-form">
-              <GlassCard variant="solid" className="w-full max-w-md relative">
-              {/* Verified badge */}
-              <div className="absolute top-4 right-4 text-green-500 bg-green-50 p-1 rounded-full">
-                <Shield className="w-5 h-5" />
-              </div>
-
-              <h3 className="text-2xl font-bold text-text-main mb-1">
-                Book Consultation
-              </h3>
-              <p className="text-sm text-text-secondary mb-6">
-                First consultation is free*
-              </p>
-
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <Input
-                  label="Patient Name"
-                  icon={User}
-                  placeholder="Enter Full Name"
-                  value={name}
-                  onChange={(e) => setDetails({ name: e.target.value })}
-                />
-
-                <Input
-                  label="Phone Number"
-                  icon={Phone}
-                  type="tel"
-                  placeholder="+91 98765 43210"
-                  value={phone}
-                  onChange={(e) => setDetails({ phone: e.target.value })}
-                />
-
-                <Select
-                  label="Select Specialty"
-                  icon={Stethoscope}
-                  options={specialtyOptions}
-                  value={specialty}
-                  onChange={(e) => setDetails({ specialty: e.target.value })}
-                />
-
-                <Button
-                  type="submit"
-                  variant="primary"
-                  size="lg"
-                  glow
-                  className="w-full mt-2"
-                >
-                  Book Now
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
-
-                <div className="text-center mt-4 flex items-center justify-center gap-1 text-xs text-gray-400">
-                  <Lock className="w-3 h-3" />
-                  Your personal information is 100% safe
+            <div id="hero-booking-form" className="w-full max-w-sm md:max-w-md lg:max-w-lg">
+              <GlassCard variant="solid" className="w-full relative p-5 sm:p-6 lg:p-8">
+                {/* Verified badge */}
+                <div className="absolute top-4 right-4 text-green-500 bg-green-50 p-1.5 rounded-full">
+                  <Shield className="w-4 h-4 lg:w-5 lg:h-5" />
                 </div>
-              </form>
-            </GlassCard>
+
+                <h3 className="text-xl lg:text-2xl font-bold text-text-main mb-0.5">
+                  Book Consultation
+                </h3>
+                <p className="text-xs lg:text-sm text-text-secondary mb-4 lg:mb-6">
+                  First consultation is free*
+                </p>
+
+                <form onSubmit={handleSubmit} className="space-y-3 lg:space-y-4">
+                  <Input
+                    label="Patient Name"
+                    icon={User}
+                    placeholder="Enter Full Name"
+                    value={name}
+                    onChange={(e) => setDetails({ name: e.target.value })}
+                  />
+
+                  <Input
+                    label="Phone Number"
+                    icon={Phone}
+                    type="tel"
+                    placeholder="+91 98765 43210"
+                    value={phone}
+                    onChange={(e) => setDetails({ phone: e.target.value })}
+                  />
+
+                  {/* Location with detect button */}
+                  <div className="relative">
+                    <Input
+                      label="Location"
+                      icon={MapPin}
+                      placeholder="Enter your city"
+                      value={location}
+                      onChange={(e) => setDetails({ location: e.target.value })}
+                    />
+                    <button
+                      type="button"
+                      onClick={handleGetLocation}
+                      disabled={isLocating}
+                      className="absolute right-3 top-[30px] lg:top-[34px] text-xs text-primary font-medium hover:text-primary-dark transition-colors disabled:opacity-50 flex items-center gap-1"
+                    >
+                      {isLocating ? (
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                      ) : (
+                        "Detect"
+                      )}
+                    </button>
+                  </div>
+
+                  <Select
+                    label="Consultation Type"
+                    icon={Video}
+                    options={consultationOptions}
+                    value={consultationType}
+                    onChange={(e) => setDetails({ consultationType: e.target.value })}
+                  />
+
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    size="lg"
+                    glow
+                    className="w-full mt-2"
+                  >
+                    Book Now
+                    <ArrowRight className="w-4 h-4" />
+                  </Button>
+
+                  <div className="text-center mt-3 lg:mt-4 flex items-center justify-center gap-1 text-xs text-gray-400">
+                    <Lock className="w-3 h-3" />
+                    Your information is 100% secure
+                  </div>
+                </form>
+              </GlassCard>
             </div>
           </motion.div>
         </div>

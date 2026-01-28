@@ -2,12 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { BookingModal } from "./BookingModal";
+import { ArrowRight, Phone } from "lucide-react";
 
 export function MobileStickyBar() {
   const [isVisible, setIsVisible] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,42 +28,47 @@ export function MobileStickyBar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const scrollToForm = () => {
+    const heroSection = document.getElementById("hero-booking-form");
+    if (heroSection) {
+      heroSection.scrollIntoView({ behavior: "smooth", block: "center" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
-    <>
-      <AnimatePresence>
-        {isVisible && (
-          <motion.div
-            className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] px-6 py-4 lg:hidden"
-            initial={{ y: 100 }}
-            animate={{ y: 0 }}
-            exit={{ y: 100 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          >
-            <div className="flex items-center justify-between max-w-[1400px] mx-auto gap-4">
-              {/* Price Section */}
-              <div className="flex flex-col">
-                <span className="text-xs font-bold text-text-secondary uppercase">
-                  Consultation
-                </span>
-                <span className="text-lg font-bold text-primary">Free*</span>
-              </div>
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] px-4 py-3 md:hidden"
+          initial={{ y: 100 }}
+          animate={{ y: 0 }}
+          exit={{ y: 100 }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        >
+          <div className="flex items-center justify-between gap-3">
+            {/* Call Button */}
+            <a
+              href="tel:+919876543210"
+              className="flex items-center justify-center gap-2 px-4 py-3 bg-green-500 text-white rounded-xl font-semibold text-sm shadow-lg shadow-green-500/30"
+            >
+              <Phone className="w-4 h-4" />
+              Call
+            </a>
 
-              {/* CTA Button */}
-              <motion.button
-                onClick={() => setIsModalOpen(true)}
-                className="flex-1 max-w-[200px] bg-primary text-white rounded-lg py-3 px-6 font-bold text-sm shadow-lg shadow-primary/30 flex items-center justify-center gap-2"
-                whileTap={{ scale: 0.95 }}
-              >
-                <span>Book Now</span>
-                <ArrowRight className="w-4 h-4" />
-              </motion.button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Booking Modal */}
-      <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
-    </>
+            {/* Book Button */}
+            <motion.button
+              onClick={scrollToForm}
+              className="flex-1 bg-primary text-white rounded-xl py-3 px-6 font-bold text-sm shadow-lg shadow-primary/30 flex items-center justify-center gap-2"
+              whileTap={{ scale: 0.97 }}
+            >
+              <span>Book Consultation</span>
+              <ArrowRight className="w-4 h-4" />
+            </motion.button>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
