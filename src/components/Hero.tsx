@@ -6,10 +6,11 @@ import { GlassCard, Button, Input, Select } from "@/components/ui";
 import { useBookingStore } from "@/store/bookingStore";
 
 const consultationOptions = [
-  { value: "", label: "Select Consultation Type" },
-  { value: "video", label: "Video Consultation" },
-  { value: "clinic", label: "In-Clinic Visit" },
-  { value: "home", label: "Home Visit" },
+  { value: "", label: "Select Service" },
+  { value: "home-visit", label: "Doctor Home Visit" },
+  { value: "teleconsult", label: "Teleconsultation" },
+  { value: "nursing", label: "Nursing & Paramedic" },
+  { value: "lab", label: "Lab Sample Collection" },
 ];
 
 const containerVariants = {
@@ -93,7 +94,7 @@ export function Hero() {
               className="inline-flex w-fit items-center gap-2 rounded-full border border-primary/20 bg-white/70 backdrop-blur-sm px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary shadow-sm"
             >
               <span className="size-2 rounded-full bg-primary animate-pulse" />
-              Accepting New Patients
+              Now Serving Delhi NCR
             </motion.div>
 
             {/* Heading */}
@@ -101,9 +102,9 @@ export function Hero() {
               variants={itemVariants}
               className="font-serif text-4xl sm:text-5xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-text-main"
             >
-              Sano Care <br />
+              Healthcare at <br />
               <span className="italic text-transparent bg-clip-text bg-linear-to-r from-primary via-blue-500 to-indigo-500 font-light inline-block pb-2 pr-2.5">
-                Wellness Redefined
+                your Doorstep.
               </span>
             </motion.h1>
 
@@ -112,8 +113,7 @@ export function Hero() {
               variants={itemVariants}
               className="text-lg leading-relaxed text-text-secondary/80 max-w-xl font-medium"
             >
-              Experience a seamless journey from consultation to recovery. We
-              simplify healthcare with expert doctors and modern clinics near you.
+              We bridge the gap between virtual and physical care. Get doctors, nurses, and diagnostics right at your home or within your gated society.
             </motion.p>
 
             {/* Stats */}
@@ -122,23 +122,23 @@ export function Hero() {
               className="flex items-center gap-6 lg:gap-8 pt-4"
             >
               <div className="flex flex-col">
-                <span className="text-2xl lg:text-3xl font-bold text-text-main">400+</span>
+                <span className="text-2xl lg:text-3xl font-bold text-text-main">30 Mins</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-text-secondary">
+                  Response Time
+                </span>
+              </div>
+              <div className="h-10 w-px bg-slate-200" />
+              <div className="flex flex-col">
+                <span className="text-2xl lg:text-3xl font-bold text-text-main">Verified</span>
                 <span className="text-xs font-bold uppercase tracking-wider text-text-secondary">
                   Doctors
                 </span>
               </div>
               <div className="h-10 w-px bg-slate-200" />
               <div className="flex flex-col">
-                <span className="text-2xl lg:text-3xl font-bold text-text-main">50+</span>
+                <span className="text-2xl lg:text-3xl font-bold text-text-main">100%</span>
                 <span className="text-xs font-bold uppercase tracking-wider text-text-secondary">
-                  Specialties
-                </span>
-              </div>
-              <div className="h-10 w-px bg-slate-200" />
-              <div className="flex flex-col">
-                <span className="text-2xl lg:text-3xl font-bold text-text-main">30+</span>
-                <span className="text-xs font-bold uppercase tracking-wider text-text-secondary">
-                  Cities
+                  Convenience
                 </span>
               </div>
             </motion.div>
@@ -235,7 +235,7 @@ export function Hero() {
                   </div>
 
                   <Select
-                    label="Consultation Type"
+                    label="Service Type"
                     icon={Video}
                     options={consultationOptions}
                     value={consultationType}
@@ -249,7 +249,7 @@ export function Hero() {
                     glow
                     className="w-full mt-2"
                   >
-                    Book Now
+                    Book a Visit
                     <ArrowRight className="w-4 h-4" />
                   </Button>
 

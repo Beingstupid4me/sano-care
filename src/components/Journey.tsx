@@ -5,25 +5,25 @@ import { motion } from "framer-motion";
 const journeySteps = [
   {
     number: 1,
-    title: "Initial Consultation",
+    title: "Book Your Visit",
     description:
-      "A comprehensive 45-minute session to discuss your history, symptoms, and health goals with a specialist.",
+      "Share your details and preferred time slot. Our care coordinator contacts you within 30 minutes to understand your needs.",
     image:
       "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop",
   },
   {
     number: 2,
-    title: "Diagnostic Deep Dive",
+    title: "Doctor at Your Doorstep",
     description:
-      "Utilizing our on-site advanced imaging and lab tech to get a precise picture of your health status.",
+      "A verified doctor arrives at your home with necessary equipment for consultation, vitals check, and initial diagnosis.",
     image:
       "https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=800&auto=format&fit=crop",
   },
   {
     number: 3,
-    title: "Tailored Treatment Plan",
+    title: "Complete Care & Follow-up",
     description:
-      "You receive a customized roadmap for recovery or maintenance, integrating medication, lifestyle, and therapy.",
+      "Receive digital prescription, lab sample collection at home if needed, and ongoing support for your recovery journey.",
     image:
       "https://images.unsplash.com/photo-1631815588090-d4bfec5b1b89?q=80&w=800&auto=format&fit=crop",
   },
@@ -44,14 +44,14 @@ export function Journey() {
           viewport={{ once: true }}
         >
           <span className="text-primary font-bold tracking-widest text-xs uppercase mb-2 block">
-            The Process
+            How It Works
           </span>
           <h2 className="font-serif text-4xl lg:text-5xl font-medium text-text-main">
-            Your Patient Journey
+            Your Care Journey
           </h2>
           <p className="mt-4 text-text-secondary max-w-2xl mx-auto">
-            From the moment you walk in, every step is designed for clarity,
-            comfort, and recovery.
+            From booking to recovery, healthcare has never been this convenient.
+            We bring the clinic to you.
           </p>
         </motion.div>
 

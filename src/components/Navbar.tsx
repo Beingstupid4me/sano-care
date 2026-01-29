@@ -47,7 +47,7 @@ export function Navbar() {
               <Hospital className="w-5 h-5" />
             </div>
             <h2 className="text-2xl font-serif font-bold tracking-tight text-text-main">
-              Sano<span className="text-primary font-normal italic">Care</span>
+              Sano<span className="text-primary font-normal italic">care</span>
             </h2>
           </Link>
 

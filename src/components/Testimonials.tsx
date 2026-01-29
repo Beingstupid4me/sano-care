@@ -3,29 +3,28 @@
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 
+// TODO: Replace with real patient testimonials once available
 const testimonials = [
   {
     quote:
-      "I suffered from piles for 5 years. The laser surgery at Sano Care was a miracle. I was discharged the same evening and joined work in 2 days.",
-    name: "Sarah Mitchell",
-    treatment: "Treated for Piles",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop",
+      "Getting a doctor at home within an hour was a lifesaver for my elderly mother. The doctor was professional and took time to explain everything.",
+    name: "Patient Name", // PLACEHOLDER
+    treatment: "Home Doctor Visit",
+    initial: "P",
   },
   {
     quote:
-      "The entire process was so smooth. The insurance team handled everything, and the doctor explained the laser procedure clearly. Highly recommended!",
-    name: "James Chen",
-    treatment: "Treated for Fistula",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop",
+      "The teleconsultation was so convenient. I got my prescription digitally and even had medicines delivered. No more waiting in long queues!",
+    name: "Patient Name", // PLACEHOLDER
+    treatment: "Teleconsultation",
+    initial: "P",
   },
   {
     quote:
-      "I was scared of surgery, but laser treatment was painless. The staff at Sano Care made me feel very comfortable throughout my stay.",
-    name: "Robert Fox",
-    treatment: "Treated for Fissure",
-    initial: "R",
+      "Lab sample collection at home saved my entire day. The paramedic was punctual and the reports came quickly. Highly recommend Sanocare!",
+    name: "Patient Name", // PLACEHOLDER
+    treatment: "Lab Collection at Home",
+    initial: "P",
   },
 ];
 
@@ -61,7 +60,7 @@ export function Testimonials() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
             <motion.div
-              key={testimonial.name}
+              key={index}
               className={`group bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-lg transition-all ${
                 index === 2 ? "hidden lg:block" : ""
               }`}
@@ -84,17 +83,9 @@ export function Testimonials() {
 
               {/* Author */}
               <div className="flex items-center gap-4">
-                {testimonial.image ? (
-                  <img
-                    alt={testimonial.name}
-                    className="size-12 rounded-full object-cover"
-                    src={testimonial.image}
-                  />
-                ) : (
-                  <div className="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xl">
-                    {testimonial.initial}
-                  </div>
-                )}
+                <div className="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xl">
+                  {testimonial.initial}
+                </div>
                 <div>
                   <h4 className="font-bold text-text-main text-sm">
                     {testimonial.name}

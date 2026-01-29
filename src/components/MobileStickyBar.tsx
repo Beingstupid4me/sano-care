@@ -50,7 +50,7 @@ export function MobileStickyBar() {
           <div className="flex items-center justify-between gap-3">
             {/* Call Button */}
             <a
-              href="tel:+919876543210"
+              href="tel:+919571608318"
               className="flex items-center justify-center gap-2 px-4 py-3 bg-green-500 text-white rounded-xl font-semibold text-sm shadow-lg shadow-green-500/30"
             >
               <Phone className="w-4 h-4" />

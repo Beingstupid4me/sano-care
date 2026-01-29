@@ -1,29 +1,36 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShieldCheck, FlaskConical, Clock, ArrowRight } from "lucide-react";
+import { Home, Building2, Stethoscope, Video, ArrowRight } from "lucide-react";
 
-const features = [
+const services = [
   {
-    icon: ShieldCheck,
-    title: "Patient-First",
+    icon: Home,
+    title: "Healthcare at Home",
     description:
-      "We prioritize your comfort and understanding, ensuring every question is answered with patience.",
-    points: ["Extended consultation times", "Personalized care plans"],
+      "Qualified doctors visit patients at home for primary consultations, vitals checks, injections, and routine checkups.",
+    features: ["Doctor Visits", "Vitals Check", "Wound Dressing"],
   },
   {
-    icon: FlaskConical,
-    title: "Advanced Tech",
+    icon: Building2,
+    title: "Community Infirmary",
     description:
-      "Our facilities are equipped with the latest diagnostic machinery for faster, more accurate results.",
-    points: ["In-house laboratory", "Digital health integration"],
+      "Tech-enabled kiosks installed within gated societies providing on-demand monitoring and preventive screenings.",
+    features: ["Smart Kiosks", "Preventive Health", "Tele-consult Integration"],
   },
   {
-    icon: Clock,
-    title: "24/7 Access",
+    icon: Stethoscope,
+    title: "Paramedic & Nursing",
     description:
-      "Healthcare doesn't stop at 5 PM. Our team is available round-the-clock for your urgent needs.",
-    points: ["Telemedicine support", "Urgent care facilities"],
+      "Trained professionals for blood sample collection, injections, dressing changes, and chronic disease support.",
+    features: ["Lab Collection", "Injections", "Diabetes Support"],
+  },
+  {
+    icon: Video,
+    title: "Teleconsultations",
+    description:
+      "Virtual access to licensed doctors for general health concerns, prescription refills, and follow-up guidance.",
+    features: ["Video Call", "Digital Rx", "Follow-ups"],
   },
 ];
 
@@ -54,7 +61,7 @@ export function Features() {
             viewport={{ once: true }}
           >
             <span className="text-primary font-bold tracking-widest text-xs uppercase mb-2 block">
-              Why Choose Sano Care
+              Our Services
             </span>
             <h2 className="font-serif text-4xl lg:text-5xl font-medium text-text-main">
               Integrated Care Model
@@ -67,41 +74,41 @@ export function Features() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
-            Explore our philosophy
+            Learn more about us
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </motion.a>
         </div>
 
         {/* Cards */}
         <motion.div
-          className="grid md:grid-cols-3 gap-8"
+          className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {features.map((feature) => {
-            const Icon = feature.icon;
+          {services.map((service) => {
+            const Icon = service.icon;
             return (
               <motion.div
-                key={feature.title}
+                key={service.title}
                 variants={cardVariants}
-                className="group relative p-8 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300"
+                className="group relative p-6 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300"
               >
-                <div className="size-14 rounded-xl bg-blue-50 text-primary flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                  <Icon className="w-7 h-7" />
+                <div className="size-12 rounded-xl bg-blue-50 text-primary flex items-center justify-center mb-5 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                  <Icon className="w-6 h-6" />
                 </div>
-                <h3 className="font-serif text-2xl font-bold mb-3 text-text-main">
-                  {feature.title}
+                <h3 className="font-serif text-xl font-bold mb-2 text-text-main">
+                  {service.title}
                 </h3>
-                <p className="text-text-secondary leading-relaxed mb-6">
-                  {feature.description}
+                <p className="text-text-secondary text-sm leading-relaxed mb-4">
+                  {service.description}
                 </p>
-                <ul className="space-y-2 text-sm text-text-secondary">
-                  {feature.points.map((point) => (
-                    <li key={point} className="flex items-center gap-2">
+                <ul className="space-y-1.5 text-xs text-text-secondary">
+                  {service.features.map((feature) => (
+                    <li key={feature} className="flex items-center gap-2">
                       <span className="size-1.5 rounded-full bg-primary" />
-                      {point}
+                      {feature}
                     </li>
                   ))}
                 </ul>

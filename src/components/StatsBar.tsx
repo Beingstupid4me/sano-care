@@ -5,9 +5,9 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 
 const stats = [
-  { value: "98", suffix: "%", label: "Patient Satisfaction Rate", subtext: "Based on post-visit surveys from 2023" },
-  { value: "15", suffix: "k+", label: "Lives Touched Annually", subtext: "Across 4 specialized departments" },
-  { value: "12", suffix: "min", label: "Average Wait Time", subtext: "Respecting your schedule matters" },
+  { value: "30", suffix: "min", label: "Average Response Time", subtext: "Quick care when you need it" },
+  { value: "100", suffix: "%", label: "Verified Doctors", subtext: "MBBS & specialist qualified" },
+  { value: "24", suffix: "/7", label: "Support Available", subtext: "Healthcare never stops" },
 ];
 
 function AnimatedNumber({ value, suffix }: { value: string; suffix: string }) {

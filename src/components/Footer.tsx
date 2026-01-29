@@ -4,19 +4,17 @@ import Link from "next/link";
 import { Hospital, MapPin, Phone, Mail, Twitter, Globe, Send } from "lucide-react";
 
 const footerLinks = {
-  departments: [
-    { label: "Primary Care", href: "#" },
-    { label: "Cardiology Center", href: "#" },
-    { label: "Pediatrics", href: "#" },
-    { label: "Neurology & Stroke", href: "#" },
-    { label: "Orthopedics", href: "#" },
+  services: [
+    { label: "Healthcare at Home", href: "#services" },
+    { label: "Community Infirmary", href: "#services" },
+    { label: "Paramedic & Nursing", href: "#services" },
+    { label: "Teleconsultations", href: "#services" },
   ],
   resources: [
-    { label: "Patient Portal Login", href: "#" },
-    { label: "Book Appointment", href: "#" },
-    { label: "Insurance Accepted", href: "#" },
-    { label: "Telehealth Services", href: "#" },
-    { label: "Visitor Policy", href: "#" },
+    { label: "Book a Visit", href: "#" },
+    { label: "Our Doctors", href: "#specialists" },
+    { label: "About Us", href: "#" },
+    { label: "Contact", href: "#contact" },
   ],
 };
 
@@ -30,13 +28,13 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-2 text-primary">
               <Hospital className="w-5 h-5" />
               <span className="text-xl font-serif font-bold text-text-main">
-                Sano<span className="italic font-normal text-primary">Care</span>
+                Sano<span className="italic font-normal text-primary">care</span>
               </span>
             </Link>
             <p className="text-sm leading-relaxed text-text-secondary">
-              Providing world-class healthcare with a personal touch. We believe
-              in a future where health is accessible, personalized, and
-              proactive.
+              Reimagining Primary Healthcare for Urban India. We bridge the gap
+              between virtual and physical care with doctors, nurses, and
+              diagnostics at your doorstep.
             </p>
             <div className="flex gap-4">
               {[Twitter, Globe, Send].map((Icon, i) => (
@@ -51,13 +49,13 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Departments */}
+          {/* Services */}
           <div>
             <h4 className="mb-6 text-sm font-bold uppercase tracking-widest text-text-main">
-              Departments
+              Our Services
             </h4>
             <ul className="flex flex-col gap-3 text-sm text-text-secondary">
-              {footerLinks.departments.map((link) => (
+              {footerLinks.services.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
@@ -70,10 +68,10 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Patient Resources */}
+          {/* Quick Links */}
           <div>
             <h4 className="mb-6 text-sm font-bold uppercase tracking-widest text-text-main">
-              Patient Resources
+              Quick Links
             </h4>
             <ul className="flex flex-col gap-3 text-sm text-text-secondary">
               {footerLinks.resources.map((link) => (
@@ -97,18 +95,23 @@ export function Footer() {
             <ul className="flex flex-col gap-4 text-sm text-text-secondary">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-primary mt-0.5 shrink-0" />
-                <span>
-                  123 Healthcare Ave, <br />
-                  Medical District, NY 10001
-                </span>
+                <a 
+                  href="https://www.google.com/maps/search/?api=1&query=1666/2,+Govindpuri+Ext.,+Kalkaji,+New+Delhi"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors"
+                >
+                  1666/2, Govindpuri Ext., <br />
+                  Kalkaji, New Delhi, India
+                </a>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-primary shrink-0" />
-                <span>+1 (555) 123-4567</span>
+                <a href="tel:+919571608318" className="hover:text-primary transition-colors">+91-9571608318</a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-primary shrink-0" />
-                <span>care@sanocare.com</span>
+                <a href="mailto:contact@sanocare.in" className="hover:text-primary transition-colors">contact@sanocare.in</a>
               </li>
             </ul>
           </div>
@@ -116,7 +119,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="mt-20 flex flex-col items-center justify-between gap-6 border-t border-slate-100 pt-8 text-sm text-text-secondary md:flex-row">
-          <p>© 2024 Sano Care. All rights reserved.</p>
+          <p>© 2026 Sanocare. All rights reserved.</p>
           <div className="flex gap-8">
             <Link href="#" className="hover:text-primary transition-colors">
               Privacy Policy

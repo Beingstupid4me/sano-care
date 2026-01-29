@@ -7,10 +7,11 @@ import { Button, Input, Select } from "@/components/ui";
 import { useBookingStore } from "@/store/bookingStore";
 
 const consultationOptions = [
-  { value: "", label: "Select Consultation Type" },
-  { value: "video", label: "Video Consultation" },
-  { value: "clinic", label: "In-Clinic Visit" },
-  { value: "home", label: "Home Visit" },
+  { value: "", label: "Select Service" },
+  { value: "home-visit", label: "Doctor Home Visit" },
+  { value: "teleconsult", label: "Teleconsultation" },
+  { value: "nursing", label: "Nursing & Paramedic" },
+  { value: "lab", label: "Lab Sample Collection" },
 ];
 
 interface BookingModalProps {
@@ -110,7 +111,7 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
             {/* Header */}
             <div className="bg-primary px-6 py-4 flex items-center justify-between">
               <h3 className="text-xl font-bold text-white">
-                Book Your Consultation Now
+                Book a Home Visit
               </h3>
               <button
                 onClick={onClose}
@@ -125,14 +126,14 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
               {/* Left - Info */}
               <div className="p-6 lg:p-8 bg-slate-50 border-r border-slate-100">
                 <h4 className="text-lg font-bold text-text-main mb-2">
-                  Simplifying Your Healthcare Journey
+                  Healthcare at Your Doorstep
                 </h4>
                 <p className="text-sm text-text-secondary mb-6">
-                  Consult with our expert doctors for all your health needs
+                  Doctors, nurses & diagnostics — right at your home
                 </p>
 
                 <div className="space-y-4">
-                  <h5 className="text-sm font-bold text-text-main">Next Steps</h5>
+                  <h5 className="text-sm font-bold text-text-main">What Happens Next?</h5>
                   
                   <div className="flex items-start gap-3">
                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
@@ -140,7 +141,7 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
                     </div>
                     <div className="pt-1">
                       <p className="text-sm text-text-secondary">
-                        Our care coordinator will contact you within 30 minutes
+                        Our care coordinator calls you within 30 minutes
                       </p>
                     </div>
                   </div>
@@ -151,7 +152,7 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
                     </div>
                     <div className="pt-1">
                       <p className="text-sm text-text-secondary">
-                        We&apos;ll understand your symptoms and health concerns
+                        We understand your needs and assign the right doctor
                       </p>
                     </div>
                   </div>
@@ -162,7 +163,7 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
                     </div>
                     <div className="pt-1">
                       <p className="text-sm text-text-secondary">
-                        Your consultation will be scheduled at the earliest
+                        Doctor arrives at your preferred time slot
                       </p>
                     </div>
                   </div>
@@ -171,16 +172,16 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 {/* Stats */}
                 <div className="mt-8 pt-6 border-t border-slate-200 grid grid-cols-3 gap-4">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-primary">3M+</div>
-                    <div className="text-xs text-text-secondary">Happy Patients</div>
+                    <div className="text-2xl font-bold text-primary">30</div>
+                    <div className="text-xs text-text-secondary">Min Response</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-primary">150+</div>
-                    <div className="text-xs text-text-secondary">Clinics</div>
+                    <div className="text-2xl font-bold text-primary">100%</div>
+                    <div className="text-xs text-text-secondary">Verified</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-primary">30+</div>
-                    <div className="text-xs text-text-secondary">Cities</div>
+                    <div className="text-2xl font-bold text-primary">24/7</div>
+                    <div className="text-xs text-text-secondary">Support</div>
                   </div>
                 </div>
               </div>
@@ -229,7 +230,7 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
                   </div>
 
                   <Select
-                    label="Consultation Type"
+                    label="Service Type"
                     icon={Video}
                     options={consultationOptions}
                     value={consultationType}
