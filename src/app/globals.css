@@ -79,3 +79,48 @@ body {
 .btn-glow:hover {
   box-shadow: 0 0 30px rgba(43, 140, 238, 0.6);
 }
+
+/* ===== OPS DASHBOARD THEME ===== */
+
+/* Dark theme (default for ops) */
+.ops-dark {
+  --ops-bg: #0f172a;
+  --ops-surface: #1e293b;
+  --ops-surface-hover: #334155;
+  --ops-border: #334155;
+  --ops-text: #f8fafc;
+  --ops-text-secondary: #94a3b8;
+  --ops-text-muted: #64748b;
+}
+
+/* Light theme for ops */
+.ops-light {
+  --ops-bg: #f1f5f9;
+  --ops-surface: #ffffff;
+  --ops-surface-hover: #f8fafc;
+  --ops-border: #e2e8f0;
+  --ops-text: #0f172a;
+  --ops-text-secondary: #475569;
+  --ops-text-muted: #64748b;
+}
+
+/* Apply theme variables */
+.ops-dark, .ops-light {
+  min-height: 100vh;
+}
+
+.ops-bg {
+  background-color: var(--ops-bg);
+}
+
+.ops-surface {
+  background-color: var(--ops-surface);
+}
+
+.ops-text {
+  color: var(--ops-text);
+}
+
+.ops-text-secondary {
+  color: var(--ops-text-secondary);
+}

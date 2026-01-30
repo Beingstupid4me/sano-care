@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Hospital } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui";
 import { BookingModal } from "@/components/BookingModal";
 import { useBookingStore } from "@/store/bookingStore";
@@ -40,13 +41,18 @@ export function Navbar() {
             : "bg-surface-light/95 border-b border-slate-100"
         )}
       >
-        <div className="mx-auto flex h-20 lg:h-24 max-w-[1400px] items-center justify-between px-6 lg:px-12">
+        <div className="mx-auto flex h-16 md:h-20 lg:h-24 max-w-[1400px] items-center justify-between px-4 md:px-6 lg:px-12">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex size-10 items-center justify-center rounded-full bg-gradient-to-tr from-primary to-blue-400 text-white shadow-lg shadow-blue-500/20 group-hover:shadow-blue-500/40 transition-shadow">
-              <Hospital className="w-5 h-5" />
-            </div>
-            <h2 className="text-2xl font-serif font-bold tracking-tight text-text-main">
+          <Link href="/" className="flex items-center gap-2 md:gap-3 group">
+            <Image
+              src="/logo.svg"
+              alt="Sanocare"
+              width={40}
+              height={40}
+              className="w-8 h-8 md:w-10 md:h-10"
+              priority
+            />
+            <h2 className="text-xl md:text-2xl font-serif font-bold tracking-tight text-text-main">
               Sano<span className="text-primary font-normal italic">care</span>
             </h2>
           </Link>
@@ -74,9 +80,11 @@ export function Navbar() {
               >
                 Book Now
               </Button>
-              <Button variant="outline" size="md" className="rounded-full">
-                Patient Portal
-              </Button>
+              <Link href="/portal">
+                <Button variant="outline" size="md" className="rounded-full">
+                  Patient Portal
+                </Button>
+              </Link>
             </div>
           </nav>
 
@@ -125,9 +133,11 @@ export function Navbar() {
                 >
                   Book Now
                 </Button>
-                <Button variant="outline" size="md" className="rounded-full">
-                  Patient Portal
-                </Button>
+                <Link href="/portal" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Button variant="outline" size="md" className="rounded-full w-full">
+                    Patient Portal
+                  </Button>
+                </Link>
               </nav>
             </motion.div>
           )}

@@ -1,11 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { User, Phone, MapPin, Loader2, ArrowRight, Shield, Lock, Video, Building2 } from "lucide-react";
+import { User, Phone, MapPin, Loader2, ArrowRight, Shield, Lock, Crosshair, CheckCircle2, AlertCircle, Users } from "lucide-react";
 import { GlassCard, Button, Input, Select } from "@/components/ui";
 import { useBookingStore } from "@/store/bookingStore";
+import { useGeolocation } from "@/hooks/useGeolocation";
+import { useBookingSubmit } from "@/hooks/useBookingSubmit";
+import { BookingConfirmation } from "@/components/BookingConfirmation";
 
-const consultationOptions = [
+const serviceOptions = [
   { value: "", label: "Select Service" },
   { value: "home-visit", label: "Doctor Home Visit" },
   { value: "teleconsult", label: "Teleconsultation" },
@@ -29,39 +33,78 @@ const itemVariants = {
 };
 
 export function Hero() {
-  const { name, phone, location, consultationType, isLocating, setDetails, setLocating } = useBookingStore();
+  const { 
+    name, 
+    phone, 
+    location, 
+    serviceCategory, 
+    gpsLocation,
+    isLocating, 
+    isSubmitting,
+    locationError,
+    confirmedBooking,
+    isBookingForOther,
+    setDetails,
+    setBookingForOther,
+    resetForNewBooking,
+  } = useBookingStore();
+  
+  const { detectLocation } = useGeolocation();
+  const { submitBooking } = useBookingSubmit();
+  const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
-  const handleGetLocation = () => {
-    if (!navigator.geolocation) {
-      alert("Geolocation is not supported by your browser");
-      return;
+  const handleGetLocation = async () => {
+    try {
+      await detectLocation();
+    } catch (error) {
+      console.error('Location error:', error);
     }
-
-    setLocating(true);
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        try {
-          const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.coords.latitude}&lon=${position.coords.longitude}`
-          );
-          const data = await response.json();
-          const city = data.address?.city || data.address?.town || data.address?.village || data.address?.state || "Location detected";
-          setDetails({ location: city });
-        } catch {
-          setDetails({ location: "Location detected" });
-        }
-        setLocating(false);
-      },
-      () => {
-        setLocating(false);
-        alert("Unable to retrieve your location");
-      }
-    );
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Phone number handler - keeps +91 prefix and allows only 10 digits after
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+    
+    // Always ensure it starts with +91
+    if (!value.startsWith('+91')) {
+      value = '+91 ' + value.replace(/^\+?91?\s?/, '');
+    }
+    
+    // Extract digits after +91
+    const afterPrefix = value.slice(4).replace(/\D/g, '');
+    
+    // Limit to 10 digits
+    const limitedDigits = afterPrefix.slice(0, 10);
+    
+    // Format: +91 XXXXX XXXXX
+    let formatted = '+91 ';
+    if (limitedDigits.length > 0) {
+      formatted += limitedDigits.slice(0, 5);
+      if (limitedDigits.length > 5) {
+        formatted += ' ' + limitedDigits.slice(5);
+      }
+    }
+    
+    setDetails({ phone: formatted });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Booking submitted:", { name, phone, location, consultationType });
+    setSubmitStatus(null);
+    
+    const result = await submitBooking();
+    
+    if (result.success) {
+      // Confirmation is now handled by confirmedBooking state
+      setSubmitStatus({ type: 'success', message: 'Booking submitted!' });
+    } else {
+      setSubmitStatus({ type: 'error', message: result.error || 'Something went wrong' });
+    }
+  };
+
+  const handleBookAgain = () => {
+    resetForNewBooking();
+    setSubmitStatus(null);
   };
 
   return (
@@ -181,83 +224,162 @@ export function Hero() {
           >
             <div id="hero-booking-form" className="w-full max-w-sm md:max-w-md lg:max-w-lg">
               <GlassCard variant="solid" className="w-full relative p-5 sm:p-6 lg:p-8">
-                {/* Verified badge */}
-                <div className="absolute top-4 right-4 text-green-500 bg-green-50 p-1.5 rounded-full">
-                  <Shield className="w-4 h-4 lg:w-5 lg:h-5" />
-                </div>
-
-                <h3 className="text-xl lg:text-2xl font-bold text-text-main mb-0.5">
-                  Book Consultation
-                </h3>
-                <p className="text-xs lg:text-sm text-text-secondary mb-4 lg:mb-6">
-                  First consultation is free*
-                </p>
-
-                <form onSubmit={handleSubmit} className="space-y-3 lg:space-y-4">
-                  <Input
-                    label="Patient Name"
-                    icon={User}
-                    placeholder="Enter Full Name"
-                    value={name}
-                    onChange={(e) => setDetails({ name: e.target.value })}
+                {/* Show confirmation if booking exists, otherwise show form */}
+                {confirmedBooking ? (
+                  <BookingConfirmation 
+                    booking={confirmedBooking} 
+                    onBookAgain={handleBookAgain}
+                    variant="card"
                   />
+                ) : (
+                  <>
+                    {/* Verified badge */}
+                    <div className="absolute top-4 right-4 text-green-500 bg-green-50 p-1.5 rounded-full">
+                      <Shield className="w-4 h-4 lg:w-5 lg:h-5" />
+                    </div>
 
-                  <Input
-                    label="Phone Number"
-                    icon={Phone}
-                    type="tel"
-                    placeholder="+91 98765 43210"
-                    value={phone}
-                    onChange={(e) => setDetails({ phone: e.target.value })}
-                  />
+                    <h3 className="text-xl lg:text-2xl font-bold text-text-main mb-0.5">
+                      Book Consultation
+                    </h3>
+                    <p className="text-xs lg:text-sm text-text-secondary mb-4 lg:mb-6">
+                      First consultation is free*
+                    </p>
 
-                  {/* Location with detect button */}
-                  <div className="relative">
-                    <Input
-                      label="Location"
-                      icon={MapPin}
-                      placeholder="Enter your city"
-                      value={location}
-                      onChange={(e) => setDetails({ location: e.target.value })}
-                    />
-                    <button
-                      type="button"
-                      onClick={handleGetLocation}
-                      disabled={isLocating}
-                      className="absolute right-3 top-[30px] lg:top-[34px] text-xs text-primary font-medium hover:text-primary-dark transition-colors disabled:opacity-50 flex items-center gap-1"
-                    >
-                      {isLocating ? (
-                        <Loader2 className="w-3 h-3 animate-spin" />
-                      ) : (
-                        "Detect"
+                    <form onSubmit={handleSubmit} className="space-y-3 lg:space-y-4">
+                      <Input
+                        label="Patient Name"
+                        icon={User}
+                        placeholder="Enter Full Name"
+                        value={name}
+                        onChange={(e) => setDetails({ name: e.target.value })}
+                        required
+                      />
+
+                      <Input
+                        label="Phone Number"
+                        icon={Phone}
+                        type="tel"
+                        placeholder="+91 98765 43210"
+                        value={phone}
+                        onChange={handlePhoneChange}
+                        required
+                      />
+
+                      {/* Booking for someone else checkbox */}
+                      <label className="flex items-center gap-2 cursor-pointer group">
+                        <input
+                          type="checkbox"
+                          checked={isBookingForOther}
+                          onChange={(e) => setBookingForOther(e.target.checked)}
+                          className="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary"
+                        />
+                        <span className="text-xs text-text-secondary group-hover:text-text-main transition-colors flex items-center gap-1">
+                          <Users className="w-3 h-3" />
+                          Booking for someone else
+                        </span>
+                      </label>
+
+                      {/* Location with detect button */}
+                      <div className="relative">
+                        <Input
+                          label="Patient Address"
+                          icon={MapPin}
+                          placeholder="House/Flat No, Building, Street, Locality"
+                          value={location}
+                          onChange={(e) => setDetails({ location: e.target.value })}
+                          required
+                        />
+                        {!isBookingForOther && (
+                          <button
+                            type="button"
+                            onClick={handleGetLocation}
+                            disabled={isLocating}
+                            className="absolute right-3 top-[30px] lg:top-[34px] text-xs text-primary font-medium hover:text-primary-dark transition-colors disabled:opacity-50 flex items-center gap-1"
+                          >
+                            {isLocating ? (
+                              <>
+                                <Loader2 className="w-3 h-3 animate-spin" />
+                                <span>Detecting...</span>
+                              </>
+                            ) : (
+                              <>
+                                <Crosshair className="w-3 h-3" />
+                                <span>Add GPS</span>
+                              </>
+                            )}
+                          </button>
+                        )}
+                        {/* GPS Accuracy indicator */}
+                        {gpsLocation && !isBookingForOther && (
+                          <div className="mt-1 text-xs text-green-600 flex items-center gap-1">
+                            <CheckCircle2 className="w-3 h-3" />
+                            GPS added (±{gpsLocation.accuracy}m) — helps paramedic navigate
+                          </div>
+                        )}
+                        {locationError && (
+                          <div className="mt-1 text-xs text-red-500 flex items-center gap-1">
+                            <AlertCircle className="w-3 h-3" />
+                            {locationError}
+                          </div>
+                        )}
+                        {!gpsLocation && !locationError && !isLocating && !isBookingForOther && (
+                          <div className="mt-1 text-xs text-slate-500 flex items-center gap-1">
+                            <Crosshair className="w-3 h-3" />
+                            GPS optional but helps with faster arrival
+                          </div>
+                        )}
+                        {isBookingForOther && (
+                          <div className="mt-1 text-xs text-blue-600 flex items-center gap-1">
+                            <Users className="w-3 h-3" />
+                            Enter the patient&apos;s complete address
+                          </div>
+                        )}
+                      </div>
+
+                      <Select
+                        label="Service Type"
+                        icon={Crosshair}
+                        options={serviceOptions}
+                        value={serviceCategory}
+                        onChange={(e) => setDetails({ serviceCategory: e.target.value })}
+                      />
+
+                      {/* Submit Status */}
+                      {submitStatus && submitStatus.type === 'error' && (
+                        <div className="p-3 rounded-lg text-sm flex items-center gap-2 bg-red-50 text-red-700">
+                          <AlertCircle className="w-4 h-4" />
+                          {submitStatus.message}
+                        </div>
                       )}
-                    </button>
-                  </div>
 
-                  <Select
-                    label="Service Type"
-                    icon={Video}
-                    options={consultationOptions}
-                    value={consultationType}
-                    onChange={(e) => setDetails({ consultationType: e.target.value })}
-                  />
+                      <Button
+                        type="submit"
+                        variant="primary"
+                        size="lg"
+                        glow
+                        className="w-full mt-2"
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            Submitting...
+                          </>
+                        ) : (
+                          <>
+                            Book a Visit
+                            <ArrowRight className="w-4 h-4" />
+                          </>
+                        )}
+                      </Button>
 
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    size="lg"
-                    glow
-                    className="w-full mt-2"
-                  >
-                    Book a Visit
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
-
-                  <div className="text-center mt-3 lg:mt-4 flex items-center justify-center gap-1 text-xs text-gray-400">
-                    <Lock className="w-3 h-3" />
-                    Your information is 100% secure
-                  </div>
-                </form>
+                      <div className="text-center mt-3 lg:mt-4 flex items-center justify-center gap-1 text-xs text-gray-400">
+                        <Lock className="w-3 h-3" />
+                        Your information is 100% secure
+                      </div>
+                    </form>
+                  </>
+                )}
               </GlassCard>
             </div>
           </motion.div>

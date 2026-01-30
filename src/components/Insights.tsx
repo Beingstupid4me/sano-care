@@ -61,9 +61,10 @@ export function Insights() {
         {/* Articles Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {articles.map((article, index) => (
-            <motion.article
+            <motion.a
               key={article.title}
-              className="group cursor-pointer"
+              href="/coming-soon/blog"
+              className="group cursor-pointer block"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -93,7 +94,7 @@ export function Insights() {
                   {article.description}
                 </p>
               </div>
-            </motion.article>
+            </motion.a>
           ))}
         </div>
       </div>

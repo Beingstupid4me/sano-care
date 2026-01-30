@@ -68,7 +68,7 @@ export function Features() {
             </h2>
           </motion.div>
           <motion.a
-            href="#"
+            href="/coming-soon/about"
             className="group flex items-center gap-2 pb-1 border-b border-text-main text-text-main font-medium hover:text-primary hover:border-primary transition-colors"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}

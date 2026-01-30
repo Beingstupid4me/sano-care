@@ -15,8 +15,81 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Sano Care - Wellness Redefined",
-  description: "Experience a seamless journey from consultation to recovery. We simplify healthcare with expert doctors and modern clinics near you.",
+  title: {
+    default: "Sanocare - Healthcare at Your Doorstep | Doctor Home Visits in Delhi",
+    template: "%s | Sanocare",
+  },
+  description: "Reimagining Primary Healthcare for Urban India. Book doctor home visits, teleconsultations, nursing care & lab tests at your doorstep. Verified doctors, 24/7 support. Call +91-9571608318.",
+  keywords: [
+    "doctor home visit",
+    "home healthcare",
+    "doctor at home Delhi",
+    "nursing care at home",
+    "teleconsultation India",
+    "lab test at home",
+    "Sanocare",
+    "healthcare at doorstep",
+    "medical home service",
+    "paramedic service Delhi",
+  ],
+  authors: [{ name: "Sanocare Healthcare Pvt. Ltd." }],
+  creator: "Sanocare",
+  publisher: "Sanocare Healthcare Pvt. Ltd.",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL("https://sanocare.in"),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Sanocare - Healthcare at Your Doorstep",
+    description: "Book doctor home visits, teleconsultations, nursing care & lab tests. Verified doctors, 24/7 support in Delhi NCR.",
+    url: "https://sanocare.in",
+    siteName: "Sanocare",
+    locale: "en_IN",
+    type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Sanocare - Healthcare at Your Doorstep",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sanocare - Healthcare at Your Doorstep",
+    description: "Book doctor home visits, teleconsultations, nursing care & lab tests. Verified doctors, 24/7 support.",
+    images: ["/og-image.png"],
+    creator: "@sanocare",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  icons: {
+    icon: [
+      { url: "/logo.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
+  },
+  manifest: "/manifest.json",
+  verification: {
+    // Add your verification codes here when available
+    // google: "google-site-verification-code",
+  },
 };
 
 export default function RootLayout({
@@ -26,7 +99,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+        <meta name="theme-color" content="#2563eb" />
+        <meta name="geo.region" content="IN-DL" />
+        <meta name="geo.placename" content="New Delhi" />
+      </head>
       <body
+        suppressHydrationWarning
         className={`${playfair.variable} ${manrope.variable} font-sans antialiased`}
       >
         {children}

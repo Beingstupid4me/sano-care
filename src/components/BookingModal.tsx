@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, User, Phone, MapPin, Video, Loader2, ArrowRight, Check, Clock, UserCheck, Calendar } from "lucide-react";
+import { X, User, Phone, MapPin, Crosshair, Loader2, ArrowRight, Check, Clock, UserCheck, Calendar, CheckCircle2, AlertCircle, Users } from "lucide-react";
 import { Button, Input, Select } from "@/components/ui";
 import { useBookingStore } from "@/store/bookingStore";
+import { useGeolocation } from "@/hooks/useGeolocation";
+import { useBookingSubmit } from "@/hooks/useBookingSubmit";
+import { BookingConfirmation } from "@/components/BookingConfirmation";
 
-const consultationOptions = [
+const serviceOptions = [
   { value: "", label: "Select Service" },
   { value: "home-visit", label: "Doctor Home Visit" },
   { value: "teleconsult", label: "Teleconsultation" },
@@ -20,35 +23,60 @@ interface BookingModalProps {
 }
 
 export function BookingModal({ isOpen, onClose }: BookingModalProps) {
-  const { name, phone, location, consultationType, isLocating, setDetails, setLocating } = useBookingStore();
+  const { 
+    name, 
+    phone, 
+    location, 
+    serviceCategory, 
+    gpsLocation,
+    isLocating, 
+    isSubmitting,
+    locationError,
+    confirmedBooking,
+    isBookingForOther,
+    setDetails,
+    setBookingForOther,
+    resetForNewBooking,
+  } = useBookingStore();
+  
   const modalRef = useRef<HTMLDivElement>(null);
+  const { detectLocation } = useGeolocation();
+  const { submitBooking } = useBookingSubmit();
+  const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
-  const handleGetLocation = () => {
-    if (!navigator.geolocation) {
-      alert("Geolocation is not supported by your browser");
-      return;
+  const handleGetLocation = async () => {
+    try {
+      await detectLocation();
+    } catch (error) {
+      console.error('Location error:', error);
     }
+  };
 
-    setLocating(true);
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        try {
-          const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${position.coords.latitude}&lon=${position.coords.longitude}`
-          );
-          const data = await response.json();
-          const city = data.address?.city || data.address?.town || data.address?.village || data.address?.state || "Location detected";
-          setDetails({ location: city });
-        } catch {
-          setDetails({ location: "Location detected" });
-        }
-        setLocating(false);
-      },
-      () => {
-        setLocating(false);
-        alert("Unable to retrieve your location");
+  // Phone number handler - keeps +91 prefix and allows only 10 digits after
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+    
+    // Always ensure it starts with +91
+    if (!value.startsWith('+91')) {
+      value = '+91 ' + value.replace(/^\+?91?\s?/, '');
+    }
+    
+    // Extract digits after +91
+    const afterPrefix = value.slice(4).replace(/\D/g, '');
+    
+    // Limit to 10 digits
+    const limitedDigits = afterPrefix.slice(0, 10);
+    
+    // Format: +91 XXXXX XXXXX
+    let formatted = '+91 ';
+    if (limitedDigits.length > 0) {
+      formatted += limitedDigits.slice(0, 5);
+      if (limitedDigits.length > 5) {
+        formatted += ' ' + limitedDigits.slice(5);
       }
-    );
+    }
+    
+    setDetails({ phone: formatted });
   };
 
   // Close on escape key
@@ -75,10 +103,22 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Booking submitted:", { name, phone, location, consultationType });
-    onClose();
+    setSubmitStatus(null);
+    
+    const result = await submitBooking();
+    
+    if (result.success) {
+      setSubmitStatus({ type: 'success', message: 'Booking submitted!' });
+    } else {
+      setSubmitStatus({ type: 'error', message: result.error || 'Something went wrong' });
+    }
+  };
+
+  const handleBookAgain = () => {
+    resetForNewBooking();
+    setSubmitStatus(null);
   };
 
   return (
@@ -186,81 +226,155 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
                 </div>
               </div>
 
-              {/* Right - Form */}
+              {/* Right - Form or Confirmation */}
               <div className="p-6 lg:p-8">
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <Input
-                    label="Patient Name"
-                    icon={User}
-                    placeholder="Enter Full Name"
-                    value={name}
-                    onChange={(e) => setDetails({ name: e.target.value })}
+                {confirmedBooking ? (
+                  <BookingConfirmation 
+                    booking={confirmedBooking} 
+                    onBookAgain={handleBookAgain}
+                    variant="modal"
                   />
-
-                  <Input
-                    label="Phone Number"
-                    icon={Phone}
-                    type="tel"
-                    placeholder="+91 98765 43210"
-                    value={phone}
-                    onChange={(e) => setDetails({ phone: e.target.value })}
-                  />
-
-                  {/* Location with detect button */}
-                  <div className="relative">
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-4">
                     <Input
-                      label="Location"
-                      icon={MapPin}
-                      placeholder="Enter your city"
-                      value={location}
-                      onChange={(e) => setDetails({ location: e.target.value })}
+                      label="Patient Name"
+                      icon={User}
+                      placeholder="Enter Full Name"
+                      value={name}
+                      onChange={(e) => setDetails({ name: e.target.value })}
                     />
-                    <button
-                      type="button"
-                      onClick={handleGetLocation}
-                      disabled={isLocating}
-                      className="absolute right-3 top-[34px] text-xs text-primary font-medium hover:text-primary-dark transition-colors disabled:opacity-50 flex items-center gap-1"
-                    >
-                      {isLocating ? (
-                        <Loader2 className="w-3 h-3 animate-spin" />
-                      ) : (
-                        "Detect"
+
+                    <Input
+                      label="Phone Number"
+                      icon={Phone}
+                      type="tel"
+                      placeholder="+91 98765 43210"
+                      value={phone}
+                      onChange={handlePhoneChange}
+                    />
+
+                    {/* Booking for someone else checkbox */}
+                    <label className="flex items-center gap-2 cursor-pointer group">
+                      <input
+                        type="checkbox"
+                        checked={isBookingForOther}
+                        onChange={(e) => setBookingForOther(e.target.checked)}
+                        className="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary"
+                      />
+                      <span className="text-xs text-text-secondary group-hover:text-text-main transition-colors flex items-center gap-1">
+                        <Users className="w-3 h-3" />
+                        Booking for someone else
+                      </span>
+                    </label>
+
+                    {/* Location with detect button */}
+                    <div className="relative">
+                      <Input
+                        label="Patient Address"
+                        icon={MapPin}
+                        placeholder="House/Flat No, Building, Street, Locality"
+                        value={location}
+                        onChange={(e) => setDetails({ location: e.target.value })}
+                      />
+                      {!isBookingForOther && (
+                        <button
+                          type="button"
+                          onClick={handleGetLocation}
+                          disabled={isLocating}
+                          className="absolute right-3 top-[34px] text-xs text-primary font-medium hover:text-primary-dark transition-colors disabled:opacity-50 flex items-center gap-1"
+                        >
+                          {isLocating ? (
+                            <>
+                              <Loader2 className="w-3 h-3 animate-spin" />
+                              Detecting...
+                            </>
+                          ) : (
+                            <>
+                              <Crosshair className="w-3 h-3" />
+                              Add GPS
+                            </>
+                          )}
+                        </button>
                       )}
-                    </button>
-                  </div>
+                      
+                      {/* GPS Accuracy Indicator */}
+                      {gpsLocation && !isBookingForOther && (
+                        <div className="mt-1 flex items-center gap-1 text-xs text-green-600">
+                          <CheckCircle2 className="w-3 h-3" />
+                          GPS added (±{gpsLocation.accuracy}m) — helps paramedic navigate
+                        </div>
+                      )}
+                      {locationError && (
+                        <div className="mt-1 flex items-center gap-1 text-xs text-red-500">
+                          <AlertCircle className="w-3 h-3" />
+                          {locationError}
+                        </div>
+                      )}
+                      {!gpsLocation && !locationError && !isLocating && !isBookingForOther && (
+                        <div className="mt-1 flex items-center gap-1 text-xs text-slate-500">
+                          <Crosshair className="w-3 h-3" />
+                          GPS optional but helps with faster arrival
+                        </div>
+                      )}
+                      {isBookingForOther && (
+                        <div className="mt-1 flex items-center gap-1 text-xs text-blue-600">
+                          <Users className="w-3 h-3" />
+                          Enter the patient&apos;s complete address
+                        </div>
+                      )}
+                    </div>
 
-                  <Select
-                    label="Service Type"
-                    icon={Video}
-                    options={consultationOptions}
-                    value={consultationType}
-                    onChange={(e) => setDetails({ consultationType: e.target.value })}
-                  />
+                    <Select
+                      label="Service Type"
+                      icon={Calendar}
+                      options={serviceOptions}
+                      value={serviceCategory}
+                      onChange={(e) => setDetails({ serviceCategory: e.target.value })}
+                    />
 
-                  {/* Promo badge */}
-                  <div className="flex justify-center">
-                    <span className="inline-flex items-center gap-1 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                      <Check className="w-3 h-3" />
-                      First Consultation FREE
-                    </span>
-                  </div>
+                    {/* Promo badge */}
+                    <div className="flex justify-center">
+                      <span className="inline-flex items-center gap-1 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                        <Check className="w-3 h-3" />
+                        First Consultation FREE
+                      </span>
+                    </div>
 
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    size="lg"
-                    glow
-                    className="w-full"
-                  >
-                    Book Appointment
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
+                    {/* Submit Status */}
+                    {submitStatus && submitStatus.type === 'error' && (
+                      <div className="p-3 rounded-lg text-sm flex items-center gap-2 bg-red-50 text-red-700 border border-red-200">
+                        <AlertCircle className="w-4 h-4 flex-shrink-0" />
+                        {submitStatus.message}
+                      </div>
+                    )}
 
-                  <p className="text-center text-xs text-gray-400 flex items-center justify-center gap-1">
-                    <Clock className="w-3 h-3" />
-                    Average response time: 30 minutes
-                  </p>
-                </form>
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      size="lg"
+                      glow
+                      className="w-full"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Submitting...
+                        </>
+                      ) : (
+                        <>
+                          Book Appointment
+                          <ArrowRight className="w-4 h-4" />
+                        </>
+                      )}
+                    </Button>
+
+                    <p className="text-center text-xs text-gray-400 flex items-center justify-center gap-1">
+                      <Clock className="w-3 h-3" />
+                      Average response time: 30 minutes
+                    </p>
+                  </form>
+                )}
               </div>
             </div>
           </motion.div>
@@ -269,4 +383,3 @@ export function BookingModal({ isOpen, onClose }: BookingModalProps) {
     </AnimatePresence>
   );
 }
-

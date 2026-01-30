@@ -1,22 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { Hospital, MapPin, Phone, Mail, Twitter, Globe, Send } from "lucide-react";
+import Image from "next/image";
+import { MapPin, Phone, Mail, Twitter, Globe, Send, Shield, UserCheck } from "lucide-react";
 
 const footerLinks = {
   services: [
-    { label: "Healthcare at Home", href: "#services" },
-    { label: "Community Infirmary", href: "#services" },
-    { label: "Paramedic & Nursing", href: "#services" },
-    { label: "Teleconsultations", href: "#services" },
+    { label: "Healthcare at Home", href: "/#services" },
+    { label: "Community Infirmary", href: "/#services" },
+    { label: "Paramedic & Nursing", href: "/#services" },
+    { label: "Teleconsultations", href: "/#services" },
   ],
   resources: [
-    { label: "Book a Visit", href: "#" },
-    { label: "Our Doctors", href: "#specialists" },
-    { label: "About Us", href: "#" },
-    { label: "Contact", href: "#contact" },
+    { label: "Book a Visit", href: "/#booking" },
+    { label: "Our Doctors", href: "/#specialists" },
+    { label: "About Us", href: "/coming-soon/about" },
+    { label: "Contact", href: "/#contact" },
   ],
 };
+
+const socialLinks = [
+  { icon: Twitter, href: "https://twitter.com/sanocare", label: "Twitter" },
+  { icon: Globe, href: "https://sanocare.in", label: "Website" },
+  { icon: Send, href: "https://t.me/sanocare", label: "Telegram" },
+];
 
 export function Footer() {
   return (
@@ -25,8 +32,14 @@ export function Footer() {
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand Column */}
           <div className="flex flex-col gap-6">
-            <Link href="/" className="flex items-center gap-2 text-primary">
-              <Hospital className="w-5 h-5" />
+            <Link href="/" className="flex items-center gap-2">
+              <Image
+                src="/logo.svg"
+                alt="Sanocare"
+                width={32}
+                height={32}
+                className="w-8 h-8"
+              />
               <span className="text-xl font-serif font-bold text-text-main">
                 Sano<span className="italic font-normal text-primary">care</span>
               </span>
@@ -36,14 +49,30 @@ export function Footer() {
               between virtual and physical care with doctors, nurses, and
               diagnostics at your doorstep.
             </p>
+            
+            {/* Trust Badges */}
+            <div className="flex items-center gap-4 text-xs text-text-secondary">
+              <span className="flex items-center gap-1">
+                <UserCheck className="w-4 h-4 text-green-600" />
+                Verified Doctors
+              </span>
+              <span className="flex items-center gap-1">
+                <Shield className="w-4 h-4 text-blue-600" />
+                Secure
+              </span>
+            </div>
+            
             <div className="flex gap-4">
-              {[Twitter, Globe, Send].map((Icon, i) => (
+              {socialLinks.map((social) => (
                 <a
-                  key={i}
-                  href="#"
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
                   className="flex size-10 items-center justify-center rounded-full bg-slate-100 text-text-secondary hover:bg-primary hover:text-white transition-all"
                 >
-                  <Icon className="w-4 h-4" />
+                  <social.icon className="w-4 h-4" />
                 </a>
               ))}
             </div>
@@ -121,13 +150,13 @@ export function Footer() {
         <div className="mt-20 flex flex-col items-center justify-between gap-6 border-t border-slate-100 pt-8 text-sm text-text-secondary md:flex-row">
           <p>© 2026 Sanocare. All rights reserved.</p>
           <div className="flex gap-8">
-            <Link href="#" className="hover:text-primary transition-colors">
+            <Link href="/coming-soon/privacy" className="hover:text-primary transition-colors">
               Privacy Policy
             </Link>
-            <Link href="#" className="hover:text-primary transition-colors">
+            <Link href="/coming-soon/terms" className="hover:text-primary transition-colors">
               Terms of Service
             </Link>
-            <Link href="#" className="hover:text-primary transition-colors">
+            <Link href="/coming-soon/sitemap" className="hover:text-primary transition-colors">
               Sitemap
             </Link>
           </div>

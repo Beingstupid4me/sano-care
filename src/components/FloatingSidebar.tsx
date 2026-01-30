@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 import { Calendar, Phone, MessageCircle, User } from "lucide-react";
 
 const sidebarButtons = [
-  { icon: Calendar, label: "Book Now", href: "#booking" },
-  { icon: Phone, label: "Call Us", href: "tel:+15551234567" },
-  { icon: MessageCircle, label: "Chat", href: "#chat" },
+  { icon: Calendar, label: "Book Now", href: "/#booking" },
+  { icon: Phone, label: "Call Us", href: "tel:+919571608318" },
+  { icon: MessageCircle, label: "Chat", href: "/coming-soon/chat" },
 ];
 
 export function FloatingSidebar() {
@@ -34,7 +34,7 @@ export function FloatingSidebar() {
       <div className="h-px w-8 bg-slate-200 mx-auto" />
       
       <motion.a
-        href="#portal"
+        href="/portal"
         className="group relative flex flex-col items-center justify-center p-2 rounded-xl hover:bg-primary/10 transition-colors"
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
