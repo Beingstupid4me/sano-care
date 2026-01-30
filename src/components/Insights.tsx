@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const articles = [
   {
+    slug: "managing-seasonal-allergies",
     category: "Wellness",
     readTime: "5 min read",
     title: "Managing Seasonal Allergies Effectively",
@@ -14,6 +15,7 @@ const articles = [
       "https://images.unsplash.com/photo-1490750967868-88aa4486c946?q=80&w=800&auto=format&fit=crop",
   },
   {
+    slug: "future-of-telehealth",
     category: "Technology",
     readTime: "3 min read",
     title: "The Future of Telehealth and Virtual Care",
@@ -23,6 +25,7 @@ const articles = [
       "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=800&auto=format&fit=crop",
   },
   {
+    slug: "heart-health-basics",
     category: "Cardiology",
     readTime: "7 min read",
     title: "Heart Health Basics for Longevity",
@@ -63,7 +66,7 @@ export function Insights() {
           {articles.map((article, index) => (
             <motion.a
               key={article.title}
-              href="/coming-soon/blog"
+              href={`/blog/${article.slug}`}
               className="group cursor-pointer block"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}

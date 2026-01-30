@@ -1,6 +1,7 @@
 import { supabase, BookingInsert } from '@/lib/supabase';
 import { useBookingStore } from '@/store/bookingStore';
 import { useCallback } from 'react';
+import { getServicePrice } from '@/constants/pricing';
 
 // Error messages with helpful fallbacks
 const ERROR_MESSAGES = {
@@ -65,6 +66,7 @@ export function useBookingSubmit() {
           accuracy: gpsLocation.accuracy,
         } : null,
         status: 'PENDING',
+        amount: getServicePrice(serviceCategory),
       };
 
       // Set a timeout for the request
