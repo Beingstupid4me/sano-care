@@ -59,11 +59,11 @@ export default function BlogPostPage() {
           animate={{ opacity: 1, y: 0 }}
           className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-500 mb-8"
         >
-          <Link href="/#research" className="hover:text-primary transition-colors">
-            Research
+          <Link href="/#insights" className="hover:text-primary transition-colors">
+            Insights
           </Link>
           <ChevronRight className="w-3 h-3" />
-          <Link href="/#research" className="hover:text-primary transition-colors">
+          <Link href="/#insights" className="hover:text-primary transition-colors">
             {post.category}
           </Link>
           <Circle className="w-2 h-2 text-primary fill-primary" />
@@ -337,7 +337,7 @@ export default function BlogPostPage() {
           className="mt-20 pt-12 border-t border-slate-200"
         >
           <Link
-            href="/#research"
+            href="/#insights"
             className="inline-flex items-center gap-2 text-slate-600 hover:text-primary transition-colors font-medium"
           >
             <ArrowLeft className="w-4 h-4" />

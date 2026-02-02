@@ -9,3 +9,5 @@ export { Accreditations } from "./Accreditations";
 export { Footer } from "./Footer";
 export { MobileStickyBar } from "./MobileStickyBar";
 export { FloatingSidebar } from "./FloatingSidebar";
+export { TopBanner } from "./TopBanner";
+export { SanocareAdvantage } from "./SanocareAdvantage";

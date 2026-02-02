@@ -6,16 +6,16 @@ import { MapPin, Phone, Mail, Twitter, Globe, Send, Shield, UserCheck } from "lu
 
 const footerLinks = {
   services: [
-    { label: "Healthcare at Home", href: "/#services" },
-    { label: "Community Infirmary", href: "/#services" },
-    { label: "Paramedic & Nursing", href: "/#services" },
-    { label: "Teleconsultations", href: "/#services" },
+    { label: "Sanocare NOW", href: "/now" },
+    { label: "CareHub for Societies", href: "/carehub" },
+    { label: "All Services", href: "/services" },
+    { label: "Teleconsultations", href: "/services#teleconsult" },
   ],
   resources: [
-    { label: "Book a Visit", href: "/#booking" },
-    { label: "Our Doctors", href: "/#specialists" },
-    { label: "About Us", href: "/coming-soon/about" },
-    { label: "Contact", href: "/#contact" },
+    { label: "Book a Visit", href: "/#hero-booking-form" },
+    { label: "About Us", href: "/about" },
+    { label: "Insights", href: "/research" },
+    { label: "Contact", href: "/contact" },
   ],
 };
 
@@ -54,7 +54,7 @@ export function Footer() {
             <div className="flex items-center gap-4 text-xs text-text-secondary">
               <span className="flex items-center gap-1">
                 <UserCheck className="w-4 h-4 text-green-600" />
-                Verified Doctors
+                Highly Qualified Doctors
               </span>
               <span className="flex items-center gap-1">
                 <Shield className="w-4 h-4 text-blue-600" />

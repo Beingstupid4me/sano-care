@@ -57,11 +57,15 @@ export type Paramedic = {
 // Status types
 export type BookingStatus = 'PENDING' | 'DISPATCHED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
 
-// Service label mapping
+// Service label mapping - supports both new and legacy service categories
 export const SERVICE_LABELS: Record<string, string> = {
-  'home-visit': 'Doctor Home Visit',
+  // New service categories (Sanocare NOW)
+  'homecare': 'Homecare',
   'teleconsult': 'Teleconsultation',
+  'chronic': 'Chronic Disease Management',
+  'diagnostics': 'Early Risk Diagnostics',
+  // Legacy categories (backward compatibility)
+  'home-visit': 'Doctor Home Visit',
   'nursing': 'Nursing & Paramedic',
   'lab': 'Lab Sample Collection',
 };
-

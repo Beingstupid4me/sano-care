@@ -1,36 +1,40 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Home, Building2, Stethoscope, Video, ArrowRight } from "lucide-react";
+import { Home, Video, HeartPulse, Activity, ArrowRight } from "lucide-react";
 
 const services = [
   {
     icon: Home,
-    title: "Healthcare at Home",
+    title: "Homecare",
     description:
-      "Qualified doctors visit patients at home for primary consultations, vitals checks, injections, and routine checkups.",
-    features: ["Doctor Visits", "Vitals Check", "Wound Dressing"],
-  },
-  {
-    icon: Building2,
-    title: "Community Infirmary",
-    description:
-      "Tech-enabled kiosks installed within gated societies providing on-demand monitoring and preventive screenings.",
-    features: ["Smart Kiosks", "Preventive Health", "Tele-consult Integration"],
-  },
-  {
-    icon: Stethoscope,
-    title: "Paramedic & Nursing",
-    description:
-      "Trained professionals for blood sample collection, injections, dressing changes, and chronic disease support.",
-    features: ["Lab Collection", "Injections", "Diabetes Support"],
+      "Medic-led doorstep execution for acute needs. Professional healthcare delivered to your home within 30 minutes.",
+    features: ["Vitals Capture", "Injections", "Wound Dressing", "Sample Collection"],
+    price: "₹499/15min",
   },
   {
     icon: Video,
-    title: "Teleconsultations",
+    title: "Teleconsultation",
     description:
-      "Virtual access to licensed doctors for general health concerns, prescription refills, and follow-up guidance.",
-    features: ["Video Call", "Digital Rx", "Follow-ups"],
+      "24/7 virtual access to dedicated MBBS doctors. Get expert medical advice without leaving your home.",
+    features: ["Video Consult", "Digital Rx", "Follow-up Guidance"],
+    price: "₹199/session",
+  },
+  {
+    icon: HeartPulse,
+    title: "Chronic Disease Management",
+    description:
+      "Specialized monitoring for elderly and long-term health conditions with dedicated care protocols.",
+    features: ["Diabetes Support", "Hypertension Monitoring", "Family Health Tracking"],
+    price: "Custom Plans",
+  },
+  {
+    icon: Activity,
+    title: "Early Risk Diagnostics",
+    description:
+      "Automated screening to detect health risks before they escalate. Prevention is better than cure.",
+    features: ["Quick Risk Diagnosis", "Preventive Screening", "AI Health Insights"],
+    price: "Starting ₹299",
   },
 ];
 
@@ -64,7 +68,7 @@ export function Features() {
               Our Services
             </span>
             <h2 className="font-serif text-4xl lg:text-5xl font-medium text-text-main">
-              Integrated Care Model
+              What You Get
             </h2>
           </motion.div>
           <motion.a
@@ -93,7 +97,7 @@ export function Features() {
               <motion.div
                 key={service.title}
                 variants={cardVariants}
-                className="group relative p-6 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300"
+                className="group relative p-6 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 flex flex-col"
               >
                 <div className="size-12 rounded-xl bg-blue-50 text-primary flex items-center justify-center mb-5 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
                   <Icon className="w-6 h-6" />
@@ -104,7 +108,7 @@ export function Features() {
                 <p className="text-text-secondary text-sm leading-relaxed mb-4">
                   {service.description}
                 </p>
-                <ul className="space-y-1.5 text-xs text-text-secondary">
+                <ul className="space-y-1.5 text-xs text-text-secondary mb-4 flex-1">
                   {service.features.map((feature) => (
                     <li key={feature} className="flex items-center gap-2">
                       <span className="size-1.5 rounded-full bg-primary" />
@@ -112,6 +116,10 @@ export function Features() {
                     </li>
                   ))}
                 </ul>
+                {/* Pricing Badge */}
+                <div className="pt-4 border-t border-slate-100">
+                  <span className="text-sm font-bold text-primary">{service.price}</span>
+                </div>
               </motion.div>
             );
           })}

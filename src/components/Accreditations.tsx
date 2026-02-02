@@ -6,12 +6,12 @@ import { Shield, UserCheck, Clock, BadgeCheck, Stethoscope } from "lucide-react"
 const trustBadges = [
   { 
     icon: UserCheck, 
-    name: "Verified Doctors",
+    name: "Verified Healthcare Staff",
     description: "100% Background Checked"
   },
   { 
     icon: Shield, 
-    name: "HIPAA Compliant",
+    name: "DISHA Compliant",
     description: "Data Security Certified"
   },
   { 

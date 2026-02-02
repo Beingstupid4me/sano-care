@@ -19,10 +19,10 @@ export const metadata: Metadata = {
     default: "Sanocare - Healthcare at Your Doorstep | Doctor Home Visits in Delhi",
     template: "%s | Sanocare",
   },
-  description: "Reimagining Primary Healthcare for Urban India. Book doctor home visits, teleconsultations, nursing care & lab tests at your doorstep. Verified doctors, 24/7 support. Call +91-9571608318.",
+  description: "Reimagining Primary Homecare for Urban India. Book doctor home visits, teleconsultations, nursing care & lab tests at your doorstep. Highly qualified doctors (MBBS/Specialists), 24/7 support. Call +91-9571608318.",
   keywords: [
     "doctor home visit",
-    "home healthcare",
+    "homecare",
     "doctor at home Delhi",
     "nursing care at home",
     "teleconsultation India",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Sanocare - Healthcare at Your Doorstep",
-    description: "Book doctor home visits, teleconsultations, nursing care & lab tests. Verified doctors, 24/7 support in Delhi NCR.",
+    description: "Book doctor home visits, teleconsultations, nursing care & lab tests. Highly qualified doctors (MBBS/Specialists), 24/7 support in Delhi NCR.",
     url: "https://sanocare.in",
     siteName: "Sanocare",
     locale: "en_IN",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Sanocare - Healthcare at Your Doorstep",
-    description: "Book doctor home visits, teleconsultations, nursing care & lab tests. Verified doctors, 24/7 support.",
+    description: "Book doctor home visits, teleconsultations, nursing care & lab tests. Highly qualified doctors (MBBS/Specialists), 24/7 support.",
     images: ["/og-image.png"],
     creator: "@sanocare",
   },

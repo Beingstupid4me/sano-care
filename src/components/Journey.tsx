@@ -15,7 +15,7 @@ const journeySteps = [
     number: 2,
     title: "Doctor at Your Doorstep",
     description:
-      "A verified doctor arrives at your home with necessary equipment for consultation, vitals check, and initial diagnosis.",
+      "A verified paramedic arrives at your home with necessary equipment for consultation, vitals check, and initial diagnosis.",
     image:
       "https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=800&auto=format&fit=crop",
   },
@@ -31,9 +31,15 @@ const journeySteps = [
 
 export function Journey() {
   return (
-    <section className="py-24 bg-surface-light relative overflow-hidden">
-      {/* Top border gradient */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+    <section className="py-24 bg-text-main text-white relative overflow-hidden">
+      {/* Dot pattern background */}
+      <div 
+        className="absolute inset-0 opacity-10" 
+        style={{ 
+          backgroundImage: "radial-gradient(#ffffff 1px, transparent 1px)", 
+          backgroundSize: "32px 32px" 
+        }} 
+      />
 
       <div className="mx-auto max-w-[1200px] px-6 lg:px-12">
         {/* Header */}
@@ -46,10 +52,10 @@ export function Journey() {
           <span className="text-primary font-bold tracking-widest text-xs uppercase mb-2 block">
             How It Works
           </span>
-          <h2 className="font-serif text-4xl lg:text-5xl font-medium text-text-main">
+          <h2 className="font-serif text-4xl lg:text-5xl font-medium text-white">
             Your Care Journey
           </h2>
-          <p className="mt-4 text-text-secondary max-w-2xl mx-auto">
+          <p className="mt-4 text-white/70 max-w-2xl mx-auto">
             From booking to recovery, healthcare has never been this convenient.
             We bring the clinic to you.
           </p>
@@ -58,7 +64,7 @@ export function Journey() {
         {/* Timeline */}
         <div className="relative">
           {/* Vertical Line */}
-          <div className="absolute left-4 lg:left-1/2 top-0 bottom-0 w-0.5 bg-slate-200 lg:-translate-x-1/2" />
+          <div className="absolute left-4 lg:left-1/2 top-0 bottom-0 w-0.5 bg-white/20 lg:-translate-x-1/2" />
 
           <div className="space-y-12 lg:space-y-24">
             {journeySteps.map((step, index) => {
@@ -79,10 +85,10 @@ export function Journey() {
                       isEven ? "lg:order-1 lg:text-right" : "lg:order-2 lg:text-left"
                     } pl-12 lg:pl-0`}
                   >
-                    <h3 className="font-serif text-2xl font-bold text-text-main">
+                    <h3 className="font-serif text-2xl font-bold text-white">
                       {step.title}
                     </h3>
-                    <p className="mt-2 text-text-secondary">
+                    <p className="mt-2 text-white/70">
                       {step.description}
                     </p>
                   </div>
@@ -93,7 +99,7 @@ export function Journey() {
                       className={`size-9 rounded-full ${
                         index === 0
                           ? "bg-primary text-white"
-                          : "bg-white text-text-main border-4 border-slate-200"
+                          : "bg-white/10 text-white border-2 border-white/30"
                       } shadow-lg flex items-center justify-center text-sm font-bold`}
                       whileInView={{
                         scale: [1, 1.2, 1],

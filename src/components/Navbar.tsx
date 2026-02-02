@@ -11,11 +11,10 @@ import { useBookingStore } from "@/store/bookingStore";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { href: "#services", label: "Services" },
-  { href: "#specialists", label: "Specialists" },
-  { href: "#research", label: "Research" },
+  { href: "/services", label: "Services" },
+  { href: "/research", label: "Insights" },
   { href: "/about", label: "About Us" },
-  { href: "#contact", label: "Contact" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function Navbar() {

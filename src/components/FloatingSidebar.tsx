@@ -4,9 +4,9 @@ import { motion } from "framer-motion";
 import { Calendar, Phone, MessageCircle, User } from "lucide-react";
 
 const sidebarButtons = [
-  { icon: Calendar, label: "Book Now", href: "/#booking" },
+  { icon: Calendar, label: "Book Now", href: "/#hero-booking-form" },
   { icon: Phone, label: "Call Us", href: "tel:+919571608318" },
-  { icon: MessageCircle, label: "Chat", href: "/coming-soon/chat" },
+  { icon: MessageCircle, label: "WhatsApp", href: "https://wa.me/919571608318" },
 ];
 
 export function FloatingSidebar() {

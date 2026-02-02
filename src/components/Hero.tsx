@@ -11,10 +11,10 @@ import { BookingConfirmation } from "@/components/BookingConfirmation";
 
 const serviceOptions = [
   { value: "", label: "Select Service" },
-  { value: "home-visit", label: "Doctor Home Visit" },
-  { value: "teleconsult", label: "Teleconsultation" },
-  { value: "nursing", label: "Nursing & Paramedic" },
-  { value: "lab", label: "Lab Sample Collection" },
+  { value: "homecare", label: "Homecare (Doctor Visit, Nursing, Vitals)" },
+  { value: "teleconsult", label: "Teleconsultation (Video Consult)" },
+  { value: "chronic", label: "Chronic Disease Management" },
+  { value: "diagnostics", label: "Early Risk Diagnostics" },
 ];
 
 const containerVariants = {
@@ -108,7 +108,7 @@ export function Hero() {
   };
 
   return (
-    <section className="relative lg:min-h-[85vh] flex items-center overflow-hidden bg-background-light py-12 lg:py-0">
+    <section className="relative lg:min-h-[80vh] flex items-center overflow-hidden bg-background-light py-10 lg:py-0">
       {/* Background with gradient overlay */}
       <div className="absolute inset-0 z-0">
         <div 
@@ -172,16 +172,16 @@ export function Hero() {
               </div>
               <div className="h-10 w-px bg-slate-200" />
               <div className="flex flex-col">
-                <span className="text-2xl lg:text-3xl font-bold text-text-main">Verified</span>
+                <span className="text-2xl lg:text-3xl font-bold text-text-main">MBBS</span>
                 <span className="text-xs font-bold uppercase tracking-wider text-text-secondary">
-                  Doctors
+                  Qualified Doctors
                 </span>
               </div>
               <div className="h-10 w-px bg-slate-200" />
               <div className="flex flex-col">
-                <span className="text-2xl lg:text-3xl font-bold text-text-main">100%</span>
+                <span className="text-2xl lg:text-3xl font-bold text-text-main">₹499</span>
                 <span className="text-xs font-bold uppercase tracking-wider text-text-secondary">
-                  Convenience
+                  Starting Price
                 </span>
               </div>
             </motion.div>

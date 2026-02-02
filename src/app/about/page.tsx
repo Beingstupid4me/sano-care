@@ -54,7 +54,7 @@ const PILLARS = [
   {
     number: "01",
     title: "The Vision",
-    description: "To be the leading home healthcare provider, making quality medical care accessible to every household.",
+    description: "To be the leading homecare provider, making quality medical care accessible to every household.",
   },
   {
     number: "02",
@@ -90,7 +90,7 @@ const MILESTONES = [
   {
     year: "[Year]",
     title: "The Foundation",
-    description: "Started with a vision to transform home healthcare, making quality medical care accessible to every family.",
+    description: "Started with a vision to transform homecare, making quality medical care accessible to every family.",
     position: "right",
   },
   {
@@ -102,13 +102,13 @@ const MILESTONES = [
   {
     year: "[Year]",
     title: "Team Expansion",
-    description: "Grew our network to include verified doctors, nurses, and lab technicians across the city.",
+    description: "Grew our network to include highly qualified doctors, nurses, and lab technicians across the city.",
     position: "right",
   },
   {
     year: "Today",
-    title: "Leading Home Healthcare",
-    description: "Serving thousands of families with comprehensive home healthcare services including teleconsultation and lab tests.",
+    title: "Leading Homecare",
+    description: "Serving thousands of families with comprehensive homecare services including teleconsultation and lab tests.",
     position: "left",
   },
 ];
@@ -234,7 +234,7 @@ function WhoWeAreSection() {
             Who We Are
           </span>
           <h2 className="font-serif text-4xl lg:text-5xl font-medium text-slate-900 mb-8">
-            Redefining the standard of home healthcare.
+            Redefining the standard of homecare.
           </h2>
           <div className="space-y-6 text-lg text-slate-600 font-light leading-relaxed">
             <p>
@@ -337,7 +337,7 @@ function TeamSection() {
           </motion.div>
           <p className="max-w-md text-white/60 font-light">
             Driven by a team of dedicated healthcare professionals committed to 
-            transforming home healthcare delivery.
+            transforming homecare delivery.
           </p>
         </div>
 

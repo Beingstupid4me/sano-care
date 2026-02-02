@@ -38,7 +38,7 @@ const articles = [
 
 export function Insights() {
   return (
-    <section className="py-24 relative" id="research">
+    <section className="py-24 relative" id="insights">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-12">
         {/* Header */}
         <div className="flex items-end justify-between pb-12">
