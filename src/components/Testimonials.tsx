@@ -8,21 +8,21 @@ const testimonials = [
   {
     quote:
       "Getting a doctor at home within an hour was a lifesaver for my elderly mother. The doctor was professional and took time to explain everything.",
-    name: "Patient Name", // PLACEHOLDER
+    name: "Sanyam Modi", // PLACEHOLDER
     treatment: "Home Doctor Visit",
     initial: "P",
   },
   {
     quote:
       "The teleconsultation was so convenient. I got my prescription digitally and even had medicines delivered. No more waiting in long queues!",
-    name: "Patient Name", // PLACEHOLDER
+    name: "Abhishek Bisht", // PLACEHOLDER
     treatment: "Teleconsultation",
     initial: "P",
   },
   {
     quote:
       "Lab sample collection at home saved my entire day. The paramedic was punctual and the reports came quickly. Highly recommend Sanocare!",
-    name: "Patient Name", // PLACEHOLDER
+    name: "Aamir Sohai", // PLACEHOLDER
     treatment: "Lab Collection at Home",
     initial: "P",
   },
